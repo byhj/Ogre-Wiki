@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7E7AE894-F693-4CEC-92F5-E66FCB083F14}</ProjectGuid>
-    <RootNamespace>Mch5StaticGeometry</RootNamespace>
+    <ProjectGuid>{080F4ADF-70DC-49B6-AA44-1DE9C6A5E53E}</ProjectGuid>
+    <RootNamespace>Bch3TerrianSkyFog</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -46,6 +46,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>OgreTerrain_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -62,6 +63,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bch3.h" />
+    <ClInclude Include="OgreWiki.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Bch3.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="OgreWiki.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

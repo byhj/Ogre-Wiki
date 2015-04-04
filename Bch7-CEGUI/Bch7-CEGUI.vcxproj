@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7E7AE894-F693-4CEC-92F5-E66FCB083F14}</ProjectGuid>
-    <RootNamespace>Mch5StaticGeometry</RootNamespace>
+    <ProjectGuid>{350A7AC0-577D-4CE3-99B8-1A5B179BFA1E}</ProjectGuid>
+    <RootNamespace>Bch7CEGUI</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -46,6 +46,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>CEGUIBase-0_d.lib;CEGUIOgreRenderer-0_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -62,6 +63,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bch7.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="OgreWiki.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bch7.h" />
+    <ClInclude Include="OgreWiki.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

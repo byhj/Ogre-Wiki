@@ -11,8 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7E7AE894-F693-4CEC-92F5-E66FCB083F14}</ProjectGuid>
-    <RootNamespace>Mch5StaticGeometry</RootNamespace>
+    <ProjectGuid>{2E97066C-58D2-46EE-B987-03FD64235380}</ProjectGuid>
+    <RootNamespace>MMch9RenderToTexture</RootNamespace>
+    <ProjectName>MMch9-1-Render-To-Texture</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

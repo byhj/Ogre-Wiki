@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7E7AE894-F693-4CEC-92F5-E66FCB083F14}</ProjectGuid>
-    <RootNamespace>Mch5StaticGeometry</RootNamespace>
+    <ProjectGuid>{2BAC9305-C815-43AB-923A-A46BDFB0009C}</ProjectGuid>
+    <RootNamespace>Bch1BasicHead</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -62,6 +62,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bch1.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="OgreWiki.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bch1.h" />
+    <ClInclude Include="OgreWiki.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
