@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D5058348-7ADD-4C2A-A0C6-D9B8DD279247}</ProjectGuid>
-    <RootNamespace>Mch7RendertoTexture</RootNamespace>
+    <ProjectGuid>{11D9975E-EE91-407C-B696-DB842787D616}</ProjectGuid>
+    <RootNamespace>MMch3</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -62,13 +62,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BaseApplication.h" />
-    <ClInclude Include="Mch7.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BaseApplication.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mch7.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

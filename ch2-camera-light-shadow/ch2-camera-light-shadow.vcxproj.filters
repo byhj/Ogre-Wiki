@@ -15,24 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MMch2.cpp">
+    <ClCompile Include="ch2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleOgre.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EasyDefines.cpp">
+    <ClCompile Include="BaseApplication.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SimpleOgre.h">
+    <ClInclude Include="ch2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EasyDefines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CImg.h">
+    <ClInclude Include="BaseApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D5058348-7ADD-4C2A-A0C6-D9B8DD279247}</ProjectGuid>
-    <RootNamespace>Mch7RendertoTexture</RootNamespace>
+    <ProjectGuid>{1DE1B995-508D-427C-A20E-953CEF9DC077}</ProjectGuid>
+    <RootNamespace>ch7GEGUI</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,9 +43,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>E:\OgreSDK1.9\CEGUI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>GEGUIBase_d.lib;CEGUIOgreRender_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -63,12 +65,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseApplication.h" />
-    <ClInclude Include="Mch7.h" />
+    <ClInclude Include="ch7.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseApplication.cpp" />
+    <ClCompile Include="ch7.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mch7.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

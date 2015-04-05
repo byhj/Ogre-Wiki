@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D5058348-7ADD-4C2A-A0C6-D9B8DD279247}</ProjectGuid>
-    <RootNamespace>Mch7RendertoTexture</RootNamespace>
+    <ProjectGuid>{2309983D-48F6-4DE1-AEBA-A069A6336706}</ProjectGuid>
+    <RootNamespace>MMch3ManualObjectQuad</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -46,6 +46,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>OgreMain_d.lib;opengl32.lib;glew32.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -62,13 +63,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BaseApplication.h" />
-    <ClInclude Include="Mch7.h" />
+    <ClCompile Include="EasyDefines.cpp" />
+    <ClCompile Include="MMch3.cpp" />
+    <ClCompile Include="SimpleOgre.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseApplication.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mch7.cpp" />
+    <ClInclude Include="CImg.h" />
+    <ClInclude Include="EasyDefines.h" />
+    <ClInclude Include="SimpleOgre.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

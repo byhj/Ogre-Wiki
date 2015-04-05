@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D5058348-7ADD-4C2A-A0C6-D9B8DD279247}</ProjectGuid>
-    <RootNamespace>Mch7RendertoTexture</RootNamespace>
+    <ProjectGuid>{E1E46D33-4CF0-4C65-8ED9-B099A6ACCC23}</ProjectGuid>
+    <RootNamespace>MMch1Beginning</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -38,7 +38,11 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>E:\OgreSDK1.9\OgreSDK_vc11_v1-9-0\boost;E:\OgreSDK1.9\OgreSDK_vc11_v1-9-0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\OgreSDK1.9\OgreSDK_vc11_v1-9-0\lib\debug;E:\OgreSDK1.9\OgreSDK_vc11_v1-9-0\boost\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>E:\OgreSDK1.9\OgreSDK_vc11_v1-9-0\bin\debug;$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -46,6 +50,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>OgreMain_d.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -62,13 +67,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BaseApplication.h" />
-    <ClInclude Include="Mch7.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BaseApplication.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mch7.cpp" />
+    <ClCompile Include="MMch1.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
