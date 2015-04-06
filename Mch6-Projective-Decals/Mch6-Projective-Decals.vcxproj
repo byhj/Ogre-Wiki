@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{BF98903F-D0F5-4F70-B66F-E7A7BFA501A9}</ProjectGuid>
+    <ProjectGuid>{6F66A09A-803D-4E93-8A7B-F01512A61953}</ProjectGuid>
     <RootNamespace>Mch6ProjectiveDecals</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -62,12 +62,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BaseApplication.h" />
-    <ClInclude Include="Mch6.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BaseApplication.cpp" />
-    <ClCompile Include="Mch6.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
