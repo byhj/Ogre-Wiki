@@ -63,6 +63,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EasyDefines.cpp" />
+    <ClCompile Include="MMch9-1.cpp" />
+    <ClCompile Include="SimpleOgre.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CImg.h" />
+    <ClInclude Include="EasyDefines.h" />
+    <ClInclude Include="SimpleOgre.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,129 +1,437 @@
 #include "Mch1.h"
 
-Mch1::Mch1(void)
+BasicApp::BasicApp()
+	: mShutdown(false),
+	mRoot(0),
+	mCamera(0),
+	mSceneMgr(0),
+	mWindow(0),
+	mResourcesCfg(Ogre::StringUtil::BLANK),
+	mPluginsCfg(Ogre::StringUtil::BLANK),
+	mCameraMan(0),
+	mRenderer(0),
+	mMouse(0),
+	mKeyboard(0),
+	mInputMgr(0),
+	mDistance(0),
+	mWalkSpd(70.0),
+	mDirection(Ogre::Vector3::ZERO),
+	mDestination(Ogre::Vector3::ZERO),
+	mAnimationState(0),
+	mEntity(0),
+	mNode(0)
 {
 }
 
-Mch1::~Mch1(void)
+BasicApp::~BasicApp()
 {
+	if (mCameraMan) delete mCameraMan;
+
+	Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
+	windowClosed(mWindow);
+
+	delete mRoot;
 }
 
-void Mch1::createScene(void)
+void BasicApp::go()
 {
-	//set the ambient light
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f, 1.0f, 1.0f));
+#ifdef _DEBUG
+	mResourcesCfg = "resources_d.cfg";
+	mPluginsCfg = "plugins_d.cfg";
+#else
+	mResourcesCfg = "resources.cfg";
+	mPluginsCfg = "plugins.cfg";
+#endif
 
-	//attach the entity
-	mEntity = mSceneMgr->createEntity("Robot", "robot.mesh");
-	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("RobotNode", Ogre::Vector3(0.0f, 0.0f, 25.0f));
-	mNode->attachObject(mEntity);
+	if (!setup())
+		return;
 
-	mWalkList.push_back(Ogre::Vector3(550.0f, 0.0f, 50.0f));
-	mWalkList.push_back(Ogre::Vector3(-100.0f, 0.0f, -200.0f));
+	mRoot->startRendering();
 
-	//knot 1
-	Ogre::Entity *ent;
-	Ogre::SceneNode * node;
-	ent = mSceneMgr->createEntity("Knot1", "knot.mesh");
-	node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot1Node",
-		Ogre::Vector3(0.0f, -10.0f, 25.0f));
-	node->attachObject(ent);
-	node->setScale(0.1f, 0.1f, 0.1f);
-
-		//knot 2
-	ent = mSceneMgr->createEntity("Knot2", "knot.mesh");
-	node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot2Node",
-		Ogre::Vector3(550.0f, -10.0f, 50.0f));
-	node->attachObject(ent);
-	node->setScale(0.1f, 0.1f, 0.1f);
-		//knot 3
-	ent = mSceneMgr->createEntity("Knot3", "knot.mesh");
-	node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot3Node",
-		Ogre::Vector3(-100.0f, -10.0f, -200.0f));
-	node->attachObject(ent);
-	node->setScale(0.1f, 0.1f, 0.1f);
-
-	//set the camera
-	mCamera->setPosition(90.0f, 280.0f, 535.0f);
-	mCamera->pitch(Ogre::Degree(-30.0f));
-	mCamera->yaw(Ogre::Degree(-15.0f));
+	destroyScene();
 }
 
-void Mch1::createFrameListener(void)
+bool BasicApp::frameRenderingQueued(const Ogre::FrameEvent& fe)
 {
-	BaseApplication::createFrameListener();
+	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
+		mShutdown = true;
 
-	//set idle animation
-	mAnimationState = mEntity->getAnimationState("Idle");
-	mAnimationState->setLoop(true);
-	mAnimationState->setEnabled(true);
-
-	//set default values for variables
-	mWalkSpeed = 35.0f;
-	mDirection = Ogre::Vector3::ZERO;
-
-}
-
-bool Mch1::nextLocation(void)
-{
-	if (mWalkList.empty())
+	if (mShutdown)
 		return false;
-	mDestination = mWalkList.front();
-	mWalkList.pop_front();
-	mDirection = mDestination - mNode->getPosition();
-	mDistance = mDirection.normalise();
-	return true;
-}
 
-bool Mch1::frameRenderingQueued(const Ogre::FrameEvent &evt)
-{
-   if (mDirection == Ogre::Vector3::ZERO) 
-   {
-		if (nextLocation()) 
+	if (mWindow->isClosed())
+		return false;
+
+	if (mDirection == Ogre::Vector3::ZERO)
+	{
+		if (nextLocation())
 		{
-			// Set walking animation
 			mAnimationState = mEntity->getAnimationState("Walk");
 			mAnimationState->setLoop(true);
-			mAnimationState->setEnabled(true);				
-		}//if
+			mAnimationState->setEnabled(true);
+		}
 	}
-   else
-   {
-		Ogre::Real move = mWalkSpeed * evt.timeSinceLastFrame;
+	else
+	{
+		Ogre::Real move = mWalkSpd * fe.timeSinceLastFrame;
 		mDistance -= move;
-		if (mDistance <= 0.0f)
-		{                 
+
+		if (mDistance <= 0.0)
+		{
 			mNode->setPosition(mDestination);
-			mDirection = Ogre::Vector3::ZERO;				
-			// Set animation based on if the robot has another point to walk to. 
-			if (!nextLocation())
+			mDirection = Ogre::Vector3::ZERO;
+
+			if (nextLocation())
 			{
-				// Set Idle animation                     
-				mAnimationState = mEntity->getAnimationState("Idle");
-				mAnimationState->setLoop(true);
-				mAnimationState->setEnabled(true);
-			}
-			else
-			{
-				// Rotation Code will go here later
 				Ogre::Vector3 src = mNode->getOrientation() * Ogre::Vector3::UNIT_X;
-				if ((1.0f + src.dotProduct(mDirection)) < 0.0001f)
+
+				if ((1.0 + src.dotProduct(mDirection)) < 0.0001)
 				{
-					mNode->yaw(Ogre::Degree(180));						
+					mNode->yaw(Ogre::Degree(180));
 				}
 				else
 				{
 					Ogre::Quaternion quat = src.getRotationTo(mDirection);
 					mNode->rotate(quat);
-				} // else
-			}//else
+				}
+			}
+			else
+			{
+				mAnimationState = mEntity->getAnimationState("Idle");
+				mAnimationState->setLoop(true);
+				mAnimationState->setEnabled(true);
+			}
 		}
 		else
-			mNode->translate(mDirection * move);
-	} // if
+		{
+			mNode->translate(move * mDirection);
+		}
+	}
 
-	mAnimationState->addTime(evt.timeSinceLastFrame);
-	return BaseApplication::frameRenderingQueued(evt);
+	mKeyboard->capture();
+	mMouse->capture();
+
+	mAnimationState->addTime(fe.timeSinceLastFrame);
+
+	CEGUI::System::getSingleton().injectTimePulse(fe.timeSinceLastFrame);
+
+	mCameraMan->frameRenderingQueued(fe);
+
+	return true;
 }
- 
 
+bool BasicApp::keyPressed(const OIS::KeyEvent& ke)
+{
+	// CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	// context.injectKeyDown((CEGUI::Key::Scan)ke.key);
+	// context.injectChar((CEGUI::Key::Scan)ke.text);
+
+	mCameraMan->injectKeyDown(ke);
+
+	return true;
+}
+
+bool BasicApp::keyReleased(const OIS::KeyEvent& ke)
+{
+	// CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	// context.injectKeyUp((CEGUI::Key::Scan)ke.key);
+
+	mCameraMan->injectKeyUp(ke);
+
+	return true;
+}
+
+bool BasicApp::mouseMoved(const OIS::MouseEvent& me)
+{
+	// CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	// context.injectMouseMove(me.state.X.rel, me.state.Y.rel);
+
+	mCameraMan->injectMouseMove(me);
+
+	return true;
+}
+
+// Helper function for mouse events
+CEGUI::MouseButton convertButton(OIS::MouseButtonID id)
+{
+	switch (id)
+	{
+	case OIS::MB_Left:
+		return CEGUI::LeftButton;
+	case OIS::MB_Right:
+		return CEGUI::RightButton;
+	case OIS::MB_Middle:
+		return CEGUI::MiddleButton;
+	default:
+		return CEGUI::LeftButton;
+	}
+}
+
+bool BasicApp::mousePressed(const OIS::MouseEvent& me, OIS::MouseButtonID id)
+{
+	// CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	// context.injectMouseButtonDown(convertButton(id));
+
+	mCameraMan->injectMouseDown(me, id);
+
+	return true;
+}
+
+bool BasicApp::mouseReleased(const OIS::MouseEvent& me, OIS::MouseButtonID id)
+{
+	// CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	// context.injectMouseButtonUp(convertButton(id));
+
+	mCameraMan->injectMouseUp(me, id);
+
+	return true;
+}
+
+void BasicApp::windowResized(Ogre::RenderWindow* rw)
+{
+	unsigned int width, height, depth;
+	int left, top;
+	rw->getMetrics(width, height, depth, left, top);
+
+	const OIS::MouseState& ms = mMouse->getMouseState();
+	ms.width = width;
+	ms.height = height;
+}
+
+void BasicApp::windowClosed(Ogre::RenderWindow* rw)
+{
+	if (rw == mWindow)
+	{
+		if (mInputMgr)
+		{
+			mInputMgr->destroyInputObject(mMouse);
+			mInputMgr->destroyInputObject(mKeyboard);
+
+			OIS::InputManager::destroyInputSystem(mInputMgr);
+			mInputMgr = 0;
+		}
+	}
+}
+
+bool BasicApp::setup()
+{
+	mRoot = new Ogre::Root(mPluginsCfg);
+
+	setupResources();
+
+	if (!configure())
+		return false;
+
+	chooseSceneManager();
+	createCamera();
+	createViewports();
+
+	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+
+	createResourceListener();
+	loadResources();
+
+	setupCEGUI();
+
+	createScene();
+
+	createFrameListener();
+
+	return true;
+}
+
+bool BasicApp::configure()
+{
+	if (!(mRoot->restoreConfig() || mRoot->showConfigDialog()))
+	{
+		return false;
+	}
+
+	mWindow = mRoot->initialise(true, "ITutorial");
+
+	return true;
+}
+
+void BasicApp::chooseSceneManager()
+{
+	mSceneMgr = mRoot->createSceneManager(Ogre::ST_EXTERIOR_CLOSE);
+}
+
+void BasicApp::createCamera()
+{
+	mCamera = mSceneMgr->createCamera("PlayerCam");
+
+	mCamera->setPosition(Ogre::Vector3(0, 0, 80));
+	mCamera->lookAt(Ogre::Vector3(0, 0, -300));
+	mCamera->setNearClipDistance(5);
+
+	mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+}
+
+void BasicApp::createScene()
+{
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.7, 0.7, 0.7));
+
+	mEntity = mSceneMgr->createEntity("robot.mesh");
+	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(
+		Ogre::Vector3(0, 0, 25.0));
+	mNode->attachObject(mEntity);
+
+	mWalkList.push_back(Ogre::Vector3(550.0, 0, 50.0));
+	mWalkList.push_back(Ogre::Vector3(-150.0, 0, -200.0));
+	mWalkList.push_back(Ogre::Vector3(0, 0, 25.0));
+	mWalkList.push_back(Ogre::Vector3(550.0, 0, 50.0));
+
+	Ogre::Entity* ent;
+	Ogre::SceneNode* node;
+
+	ent = mSceneMgr->createEntity("knot.mesh");
+	ent->setMaterialName("Examples/KnotTexture");
+	node = mSceneMgr->getRootSceneNode()->createChildSceneNode(
+		Ogre::Vector3(0, -10.0, 25.0));
+	node->attachObject(ent);
+	node->setScale(0.1, 0.1, 0.1);
+
+	ent = mSceneMgr->createEntity("knot.mesh");
+	ent->setMaterialName("Examples/KnotTexture");
+	node = mSceneMgr->getRootSceneNode()->createChildSceneNode(
+		Ogre::Vector3(550.0, -10.0, 50.0));
+	node->attachObject(ent);
+	node->setScale(0.1, 0.1, 0.1);
+
+	ent = mSceneMgr->createEntity("knot.mesh");
+	ent->setMaterialName("Examples/KnotTexture");
+	node = mSceneMgr->getRootSceneNode()->createChildSceneNode(
+		Ogre::Vector3(-150.0, -10.0, -200.0));
+	node->attachObject(ent);
+	node->setScale(0.1, 0.1, 0.1);
+
+	mCamera->setPosition(90.0, 280.0, 535.0);
+	mCamera->pitch(Ogre::Degree(-30.0));
+	mCamera->yaw(Ogre::Degree(-15.0));
+
+	mAnimationState = mEntity->getAnimationState("Idle");
+	mAnimationState->setLoop(true);
+	mAnimationState->setEnabled(true);
+
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::Window* rootWin = wmgr.loadLayoutFromFile("test.layout");
+
+	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(rootWin);
+}
+
+void BasicApp::destroyScene()
+{
+}
+
+void BasicApp::createFrameListener()
+{
+	Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
+
+	OIS::ParamList pl;
+	size_t windowHnd = 0;
+	std::ostringstream windowHndStr;
+
+	mWindow->getCustomAttribute("WINDOW", &windowHnd);
+	windowHndStr << windowHnd;
+	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+
+	mInputMgr = OIS::InputManager::createInputSystem(pl);
+
+	mKeyboard = static_cast<OIS::Keyboard*>(
+		mInputMgr->createInputObject(OIS::OISKeyboard, true));
+	mMouse = static_cast<OIS::Mouse*>(
+		mInputMgr->createInputObject(OIS::OISMouse, true));
+
+	mKeyboard->setEventCallback(this);
+	mMouse->setEventCallback(this);
+
+	windowResized(mWindow);
+
+	Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
+
+	mRoot->addFrameListener(this);
+
+	Ogre::LogManager::getSingletonPtr()->logMessage("Finished");
+}
+
+void BasicApp::createViewports()
+{
+	Ogre::Viewport* vp = mWindow->addViewport(mCamera);
+	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
+
+	mCamera->setAspectRatio(
+		Ogre::Real(vp->getActualWidth()) /
+		Ogre::Real(vp->getActualHeight()));
+}
+
+void BasicApp::setupResources()
+{
+	Ogre::ConfigFile cf;
+	cf.load(mResourcesCfg);
+
+	Ogre::String secName, typeName, archName;
+	Ogre::ConfigFile::SectionIterator secIt = cf.getSectionIterator();
+
+	while (secIt.hasMoreElements())
+	{
+		secName = secIt.peekNextKey();
+		Ogre::ConfigFile::SettingsMultiMap* settings = secIt.getNext();
+		Ogre::ConfigFile::SettingsMultiMap::iterator setIt;
+
+		for (setIt = settings->begin(); setIt != settings->end(); ++setIt)
+		{
+			typeName = setIt->first;
+			archName = setIt->second;
+			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+				archName, typeName, secName);
+		}
+	}
+}
+
+void BasicApp::createResourceListener()
+{
+}
+
+void BasicApp::loadResources()
+{
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+}
+
+bool BasicApp::setupCEGUI()
+{
+	Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing CEGUI ***");
+
+	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
+
+	CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+
+	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
+	CEGUI::FontManager::getSingleton().createFromFile("DejaVuSans-10.font");
+
+	CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+
+	context.setDefaultFont("DejaVuSans-10");
+	context.getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+
+	Ogre::LogManager::getSingletonPtr()->logMessage("Finished");
+
+	return true;
+}
+
+bool BasicApp::nextLocation()
+{
+	if (mWalkList.empty())
+		return false;
+
+	mDestination = mWalkList.front();
+	mWalkList.pop_front();
+	mDirection = mDestination - mNode->getPosition();
+	mDistance = mDirection.normalise();
+
+	return true;
+}

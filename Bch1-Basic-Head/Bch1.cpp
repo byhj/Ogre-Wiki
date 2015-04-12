@@ -24,12 +24,14 @@ void BCH1::createScene()
 	Ogre::SceneNode * ogreNode2 = mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(84, 48, 0));
 	ogreNode2->attachObject(ogreEntity2);
 
+	//head3, 添加缩放和位置
 	Ogre::Entity* ogreEntity3 = mSceneMgr->createEntity("ogrehead.mesh");
 	Ogre::SceneNode* ogreNode3 = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	ogreNode3->setPosition(0, 104, 0);
 	ogreNode3->setScale(2, 1.2, 1); 
 	ogreNode3->attachObject(ogreEntity3);
 
+	//head4，添加旋转
 	Ogre::Entity* ogreEntity4 = mSceneMgr->createEntity("ogrehead.mesh");
 	Ogre::SceneNode* ogreNode4 = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	ogreNode4->setPosition(-84, 48, 0);

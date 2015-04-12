@@ -107,6 +107,7 @@ void BCH3::destoryScene(void)
 	OGRE_DELETE mTerrainGroup;
 	OGRE_DELETE mTerrainGlobals;
 }
+
 bool BCH3::frameRenderingQueued(const Ogre::FrameEvent &evt)
 {
 	bool ret = BaseApplication::frameRenderingQueued(evt);

@@ -1,5 +1,7 @@
 #include "Bch4.h"
 
+
+//call our processUnbufferedInput method each frame
 bool BCH4::processUnbufferedInput(const Ogre::FrameEvent &evt)
 {
 	static bool mMouseDown = false; 

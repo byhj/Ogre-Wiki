@@ -21,7 +21,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OgreWiki.cpp">
+    <ClCompile Include="..\..\include\OgreWiki.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="Bch8.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OgreWiki.h">
+    <ClInclude Include="..\..\include\OgreWiki.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

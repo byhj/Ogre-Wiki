@@ -1,91 +1,328 @@
 #include "Mch5.h"
 
-Mch5::Mch5(void)
+BasicApp::BasicApp()
+	: mShutdown(false),
+	mRoot(0),
+	mCamera(0),
+	mSceneMgr(0),
+	mWindow(0),
+	mResourcesCfg(Ogre::StringUtil::BLANK),
+	mPluginsCfg(Ogre::StringUtil::BLANK),
+	mCameraMan(0),
+	mRenderer(0),
+	mMouse(0),
+	mKeyboard(0),
+	mInputMgr(0)
 {
-
 }
 
-Mch5::~Mch5(void)
+BasicApp::~BasicApp()
 {
+	if (mCameraMan) delete mCameraMan;
 
+	Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
+	windowClosed(mWindow);
+
+	delete mRoot;
 }
 
-void Mch5::createGrassMesh()
+void BasicApp::go()
 {
-	const float width = 25;
-	const float height = 30;
-	Ogre::ManualObject mo("GrassObject");
+#ifdef _DEBUG
+	mResourcesCfg = "resources_d.cfg";
+	mPluginsCfg = "plugins_d.cfg";
+#else
+	mResourcesCfg = "resources.cfg";
+	mPluginsCfg = "plugins.cfg";
+#endif
 
-	Ogre::Vector3 vec(width / 2, 0, 0);
-	Ogre::Quaternion rot;
-	rot.FromAngleAxis(Ogre::Degree(60), Ogre::Vector3::UNIT_Y);
-	mo.begin("Example/GrassBlades", Ogre::RenderOperation::OT_TRIANGLE_LIST);
-	for (int i = 0; i != 3; ++i)
+	if (!setup())
+		return;
+
+	mRoot->startRendering();
+
+	destroyScene();
+}
+
+bool BasicApp::frameRenderingQueued(const Ogre::FrameEvent& fe)
+{
+	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
+		mShutdown = true;
+
+	if (mShutdown)
+		return false;
+
+	if (mWindow->isClosed())
+		return false;
+
+	mKeyboard->capture();
+	mMouse->capture();
+
+	mCameraMan->frameRenderingQueued(fe);
+
+	CEGUI::System::getSingleton().injectTimePulse(fe.timeSinceLastFrame);
+
+	return true;
+}
+
+bool BasicApp::keyPressed(const OIS::KeyEvent& ke)
+{
+	// CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	// context.injectKeyDown((CEGUI::Key::Scan)ke.key);
+	// context.injectChar((CEGUI::Key::Scan)ke.text);
+
+	mCameraMan->injectKeyDown(ke);
+
+	return true;
+}
+
+bool BasicApp::keyReleased(const OIS::KeyEvent& ke)
+{
+	// CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	// context.injectKeyUp((CEGUI::Key::Scan)ke.key);
+
+	mCameraMan->injectKeyUp(ke);
+
+	return true;
+}
+
+bool BasicApp::mouseMoved(const OIS::MouseEvent& me)
+{
+	// CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	// context.injectMouseMove(me.state.X.rel, me.state.Y.rel);
+
+	mCameraMan->injectMouseMove(me);
+
+	return true;
+}
+
+// Helper function for mouse events
+CEGUI::MouseButton convertButton(OIS::MouseButtonID id)
+{
+	switch (id)
 	{
-		mo.position(-vec.x, height, -vec.z);
-		mo.textureCoord(0, 0);
-
-		mo.position(vec.x, height, vec.z);
-		mo.textureCoord(1, 0);
-
-		mo.position(-vec.x, 0, -vec.z);
-		mo.textureCoord(0, 1);
-
-		mo.position(vec.x, 0, vec.z);
-		mo.textureCoord(1, 1);
-		int offset = i * 4;
-		mo.triangle(offset, offset+3, offset+1);
-		mo.triangle(offset, offset+2, offset+3);
-		vec = rot * vec;
+	case OIS::MB_Left:
+		return CEGUI::LeftButton;
+	case OIS::MB_Right:
+		return CEGUI::RightButton;
+	case OIS::MB_Middle:
+		return CEGUI::MiddleButton;
+	default:
+		return CEGUI::LeftButton;
 	}
-	mo.end();
-	mo.convertToMesh("GrassBladesMesh");
-	Ogre::Entity *grass = mSceneMgr->createEntity("grass", "GrassBladesMesh");
-	Ogre::StaticGeometry *sg = mSceneMgr->createStaticGeometry("GrassArea");
+}
 
-	const int size = 375;
-	const int amount = 20;
-	sg->setRegionDimensions(Ogre::Vector3(size, size, size));
-	sg->setOrigin(Ogre::Vector3(-size/2, 0, -size/2));
+bool BasicApp::mousePressed(const OIS::MouseEvent& me, OIS::MouseButtonID id)
+{
+	// CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	// context.injectMouseButtonDown(convertButton(id));
 
-	for (int x = -size/2; x < size/2; x += (size/amount))
+	mCameraMan->injectMouseDown(me, id);
+
+	return true;
+}
+
+bool BasicApp::mouseReleased(const OIS::MouseEvent& me, OIS::MouseButtonID id)
+{
+	// CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	// context.injectMouseButtonUp(convertButton(id));
+
+	mCameraMan->injectMouseUp(me, id);
+
+	return true;
+}
+
+void BasicApp::windowResized(Ogre::RenderWindow* rw)
+{
+	unsigned int width, height, depth;
+	int left, top;
+	rw->getMetrics(width, height, depth, left, top);
+
+	const OIS::MouseState& ms = mMouse->getMouseState();
+	ms.width = width;
+	ms.height = height;
+}
+
+void BasicApp::windowClosed(Ogre::RenderWindow* rw)
+{
+	if (rw == mWindow)
 	{
-		for (int z = -size/2; z < size/2; z += (size/amount))
+		if (mInputMgr)
 		{
-			Ogre::Real r = size / (float)amount / 2;
-			Ogre::Vector3 pos(x + Ogre::Math::RangeRandom(-r, r), 0, z + Ogre::Math::RangeRandom(-r, r));
-			Ogre::Vector3 scale(1, Ogre::Math::RangeRandom(0.9, 1.1), 1);
-			Ogre::Quaternion orientation;
-			orientation.FromAngleAxis(Ogre::Degree(Ogre::Math::RangeRandom(0, 359)), Ogre::Vector3::UNIT_Y);
+			mInputMgr->destroyInputObject(mMouse);
+			mInputMgr->destroyInputObject(mKeyboard);
 
-			sg->addEntity(grass, pos, orientation, scale);
+			OIS::InputManager::destroyInputSystem(mInputMgr);
+			mInputMgr = 0;
 		}
 	}
-	sg->build();
 }
 
-void Mch5::createScene()
+bool BasicApp::setup()
 {
-   createGrassMesh();
-   //light
-   mSceneMgr->setAmbientLight(Ogre::ColourValue::White);
-   mCamera->setPosition(150, 50, 150);
-   mCamera->lookAt(0, 0, 0);
+	mRoot = new Ogre::Root(mPluginsCfg);
 
-   Ogre::Entity *robot = mSceneMgr->createEntity("robot", "robot.mesh");
-   mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(robot);
+	setupResources();
 
-   Ogre::Plane plane;
-   plane.normal = Ogre::Vector3::UNIT_Y;
-   plane.d = 0;
+	if (!configure())
+		return false;
 
-   Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-	   plane, 450.0f, 450.0f, 10, 10, true, 1, 50.0f, 50.0f, Ogre::Vector3::UNIT_Z);
+	chooseSceneManager();
+	createCamera();
+	createViewports();
 
-   Ogre::Entity *planeEnt = mSceneMgr->createEntity("plane", "floor");
-   planeEnt->setMaterialName("Examples/GrassFloor");
-   planeEnt->setCastShadows(false);
-   mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(planeEnt);
-   
+	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+
+	createResourceListener();
+	loadResources();
+
+	setupCEGUI();
+
+	createScene();
+
+	createFrameListener();
+
+	return true;
 }
 
+bool BasicApp::configure()
+{
+	if (!(mRoot->restoreConfig() || mRoot->showConfigDialog()))
+	{
+		return false;
+	}
+
+	mWindow = mRoot->initialise(true, "ITutorial");
+
+	return true;
+}
+
+void BasicApp::chooseSceneManager()
+{
+	mSceneMgr = mRoot->createSceneManager(Ogre::ST_EXTERIOR_CLOSE);
+}
+
+void BasicApp::createCamera()
+{
+	mCamera = mSceneMgr->createCamera("PlayerCam");
+
+	mCamera->setPosition(Ogre::Vector3(0, 0, 80));
+	mCamera->lookAt(Ogre::Vector3(0, 0, -300));
+	mCamera->setNearClipDistance(5);
+
+	mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+}
+
+void BasicApp::createScene()
+{
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.7, 0.7, 0.7));
+
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::Window* rootWin = wmgr.loadLayoutFromFile("test.layout");
+
+	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(rootWin);
+
+}
+
+void BasicApp::destroyScene()
+{
+}
+
+void BasicApp::createFrameListener()
+{
+	Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
+
+	OIS::ParamList pl;
+	size_t windowHnd = 0;
+	std::ostringstream windowHndStr;
+
+	mWindow->getCustomAttribute("WINDOW", &windowHnd);
+	windowHndStr << windowHnd;
+	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+
+	mInputMgr = OIS::InputManager::createInputSystem(pl);
+
+	mKeyboard = static_cast<OIS::Keyboard*>(
+		mInputMgr->createInputObject(OIS::OISKeyboard, true));
+	mMouse = static_cast<OIS::Mouse*>(
+		mInputMgr->createInputObject(OIS::OISMouse, true));
+
+	mKeyboard->setEventCallback(this);
+	mMouse->setEventCallback(this);
+
+	windowResized(mWindow);
+
+	Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
+
+	mRoot->addFrameListener(this);
+
+	Ogre::LogManager::getSingletonPtr()->logMessage("Finished");
+}
+
+void BasicApp::createViewports()
+{
+	Ogre::Viewport* vp = mWindow->addViewport(mCamera);
+	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
+
+	mCamera->setAspectRatio(
+		Ogre::Real(vp->getActualWidth()) /
+		Ogre::Real(vp->getActualHeight()));
+}
+
+void BasicApp::setupResources()
+{
+	Ogre::ConfigFile cf;
+	cf.load(mResourcesCfg);
+
+	Ogre::String secName, typeName, archName;
+	Ogre::ConfigFile::SectionIterator secIt = cf.getSectionIterator();
+
+	while (secIt.hasMoreElements())
+	{
+		secName = secIt.peekNextKey();
+		Ogre::ConfigFile::SettingsMultiMap* settings = secIt.getNext();
+		Ogre::ConfigFile::SettingsMultiMap::iterator setIt;
+
+		for (setIt = settings->begin(); setIt != settings->end(); ++setIt)
+		{
+			typeName = setIt->first;
+			archName = setIt->second;
+			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+				archName, typeName, secName);
+		}
+	}
+}
+
+void BasicApp::createResourceListener()
+{
+}
+
+void BasicApp::loadResources()
+{
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+}
+
+bool BasicApp::setupCEGUI()
+{
+	Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing CEGUI ***");
+
+	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
+
+	CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+
+	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
+	CEGUI::FontManager::getSingleton().createFromFile("DejaVuSans-10.font");
+
+	CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+
+	context.setDefaultFont("DejaVuSans-10");
+	context.getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+
+	Ogre::LogManager::getSingletonPtr()->logMessage("Finished");
+
+	return true;
+}

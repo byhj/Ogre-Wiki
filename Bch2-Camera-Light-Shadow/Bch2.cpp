@@ -12,7 +12,7 @@ BCH2::~BCH2()
 
 void BCH2::createScene()
 {
-	//添加环境光，设置绘制图像， 阴影投射
+	//添加环境光，设置绘制图像， 开启阴影投射
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(0, 0, 0));
 	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);  
 	Ogre::Entity *entNinja = mSceneMgr->createEntity("Ninja", "ninja.mesh");
