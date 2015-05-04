@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A29259FC-4BB5-43AA-B5A9-0896CEED7E4D}</ProjectGuid>
-    <RootNamespace>Basic05BufferedInput</RootNamespace>
+    <ProjectGuid>{AF258BFD-E594-4500-9AF2-455252233CE6}</ProjectGuid>
+    <RootNamespace>Depth02AdvancedOgreFramework</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -33,7 +33,6 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\Ogre-Wiki.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -47,6 +46,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>OgreTerrain_d.lib;opengl32.lib;glew32.lib;assimp.lib;OgreMain_d.lib;OgreOverlay_d.lib;OIS_d.lib;d3d9.lib;d3dx9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28February 2010%29\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -63,13 +64,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Basic5.cpp" />
+    <ClCompile Include="AdvancedOgreFramework.cpp" />
+    <ClCompile Include="AppStateManager.cpp" />
+    <ClCompile Include="DemoApp.cpp" />
+    <ClCompile Include="DotSceneLoader.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="OgreWiki.cpp" />
+    <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="PauseState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Basic5.h" />
-    <ClInclude Include="OgreWiki.h" />
+    <ClInclude Include="AdvancedOgreFramework.hpp" />
+    <ClInclude Include="AppState.hpp" />
+    <ClInclude Include="AppStateManager.hpp" />
+    <ClInclude Include="DemoApp.hpp" />
+    <ClInclude Include="DotSceneLoader.hpp" />
+    <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="MenuState.hpp" />
+    <ClInclude Include="PauseState.hpp" />
+    <ClInclude Include="rapidxml.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

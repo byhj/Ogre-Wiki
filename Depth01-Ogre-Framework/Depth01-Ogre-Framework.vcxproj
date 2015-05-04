@@ -10,9 +10,18 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DemoApp.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="OgreFramework.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DemoApp.hpp" />
+    <ClInclude Include="OgreFramework.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A29259FC-4BB5-43AA-B5A9-0896CEED7E4D}</ProjectGuid>
-    <RootNamespace>Basic05BufferedInput</RootNamespace>
+    <ProjectGuid>{6904685E-B581-4166-818F-716E94D11047}</ProjectGuid>
+    <RootNamespace>Depth01OgreFramework</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -33,7 +42,6 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\Ogre-Wiki.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -47,6 +55,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;assimp.lib;OgreMain_d.lib;OgreOverlay_d.lib;OIS_d.lib;d3d9.lib;d3dx9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\OgreSDK1.9\OgreSDK_vc11_v1-9-0\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -62,15 +72,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Basic5.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="OgreWiki.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Basic5.h" />
-    <ClInclude Include="OgreWiki.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
