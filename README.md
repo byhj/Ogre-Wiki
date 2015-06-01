@@ -1,5 +1,4 @@
 # Ogre-Wiki
-OgreWiki Sample
 Welcome to the Ogre Wiki Code by byhj!
 
 1.Introduction
