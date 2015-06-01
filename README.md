@@ -33,13 +33,17 @@ Code Include:
  1. Make sure you develop environment is right.
  2. You can build the environment by yourself according your target.
  3.Project Organization:
+
 		  |Root
+		  
               |-- include 
               |-- src
               |-- media
               
  Notice: I use the Visual Studio project props file to share the project setting.
+ 
          The output dir:
+         
               |-- bin(Execute Dir) 
               |-- temp(temp file we possibly not need) 
 
@@ -51,5 +55,5 @@ Open OpenGL-Bluebook.sln
   1. Right click on the project and set is as your startup project.
   2. Enter the exe Dir, run the exe to view the render output.
   
-Notice:You should set the OGRE_HOME to system environment variables path to your Ogre1.9 dir!
+Notice:You should set the OGRE_HOME in system environment variables path to your Ogre1.9 dir!
   
