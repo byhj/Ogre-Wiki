@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basic-Tutorials", "Basic-Tutorials", "{BACA52B1-D365-42D0-9795-8B98CB16FA54}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Intermediate-Tutorials", "Intermediate-Tutorials", "{066F44B3-2D9D-4CA1-A559-4AD5F36B3519}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MadMarx-Tutorials", "MadMarx-Tutorials", "{C7176B2A-5C0F-4570-8E2C-EEF119953177}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Depth-Tutorials", "Depth-Tutorials", "{5802D3A0-EEC9-43D9-9636-DA8067B434D9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ch01-First-Scene", "src\Basic-Tutorials\ch01-First-Scene\ch01-First-Scene.vcxproj", "{6E9DDEE7-E574-451B-8EAB-C224F9BB51A1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E9DDEE7-E574-451B-8EAB-C224F9BB51A1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6E9DDEE7-E574-451B-8EAB-C224F9BB51A1}.Debug|Win32.Build.0 = Debug|Win32
+		{6E9DDEE7-E574-451B-8EAB-C224F9BB51A1}.Release|Win32.ActiveCfg = Release|Win32
+		{6E9DDEE7-E574-451B-8EAB-C224F9BB51A1}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6E9DDEE7-E574-451B-8EAB-C224F9BB51A1} = {BACA52B1-D365-42D0-9795-8B98CB16FA54}
+	EndGlobalSection
+EndGlobal
