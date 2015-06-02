@@ -63,6 +63,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\include\OgreWiki.cpp" />
+    <ClCompile Include="ch03-Terrain.cpp" />
+    <ClCompile Include="Basic3.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\OgreWiki.h" />
+    <ClInclude Include="Basic3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
