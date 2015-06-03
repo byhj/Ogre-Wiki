@@ -59,7 +59,8 @@ bool Basic5::keyPressed(const OIS::KeyEvent& ke)
 		mShutDown = true;
 		break;
     
-   //Enter 1 or 2, we change the camera viewport
+   //Enter 1 or 2, we change the camera viewport, 
+   //Use different node to attach scene camera, it will work when attach a camera
 	case OIS::KC_1:
 		mCamera->getParentSceneNode()->detachObject(mCamera);
 		pmCamNode = mSceneMgr->getSceneNode("CamNode1");

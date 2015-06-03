@@ -28,6 +28,7 @@ $RECYCLE.BIN/
 *.lastbuildstate
 *.ktx
 *.sbm
+*.ib_pdb_index
 
 # =========================
 # Operating System Files

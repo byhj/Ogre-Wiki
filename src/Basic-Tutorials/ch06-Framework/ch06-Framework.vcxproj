@@ -63,6 +63,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Basic6.cpp" />
+    <ClCompile Include="ch06-Framework.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Basic6.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
