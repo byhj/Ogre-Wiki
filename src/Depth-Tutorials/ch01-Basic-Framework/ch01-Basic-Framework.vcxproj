@@ -64,6 +64,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DemoApp.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="OgreFramework.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DemoApp.hpp" />
+    <ClInclude Include="OgreFramework.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

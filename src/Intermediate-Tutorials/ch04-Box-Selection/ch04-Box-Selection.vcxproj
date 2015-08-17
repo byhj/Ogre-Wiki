@@ -64,6 +64,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Middle4.h" />
+    <ClInclude Include="selectionbox.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Ogre.log" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Middle4.cpp" />
+    <ClCompile Include="selectionbox.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

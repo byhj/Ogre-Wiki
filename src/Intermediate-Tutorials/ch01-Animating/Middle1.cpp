@@ -1,4 +1,6 @@
 #include "Middle1.h"
+//Exercise Intermediate
+const Ogre::Real Middle1::mWalkSpd = Ogre::Real(100.0);
 
 Middle1::Middle1()
 	: mShutdown(false),

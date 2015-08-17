@@ -98,6 +98,5 @@ private:
 	Ogre::SceneNode* mNode;
 };
 
-//Exercise Intermediate
-const Ogre::Real Middle1::mWalkSpd = Ogre::Real(100.0);
+
 #endif
