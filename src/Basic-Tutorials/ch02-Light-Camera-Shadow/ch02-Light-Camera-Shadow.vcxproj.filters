@@ -18,11 +18,11 @@
     <ClCompile Include="..\..\..\include\OgreWiki.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Basic2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ch02-Light.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic2.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -30,7 +30,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Basic2.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

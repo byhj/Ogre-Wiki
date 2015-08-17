@@ -15,21 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\include\OgreWiki.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Basic1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ch01-First-Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Basic1.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\include\OgreWiki.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\OgreWiki.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Basic1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\OgreWiki.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

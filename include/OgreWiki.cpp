@@ -7,7 +7,6 @@
 namespace OgreWiki
 {
 
-
 //---------------------------------------------------------------------------
 Application::Application(void)
     : mRoot(0),
