@@ -36,7 +36,7 @@ void Basic5::createScene()
 	pmCamNode = pNode;
 	pNode->attachObject(mCamera);
 
-	//reate another SceneNode that we can move the Camera to.
+	//create another SceneNode that we can move the Camera to.
     //pNode inherit any transformations like rotations that have been applied to the node.
 	pNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("CamNode2", Ogre::Vector3(-500, -370, 1000));
 	pNode->yaw(Ogre::Degree(-30));
@@ -47,7 +47,8 @@ bool Basic5::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 	bool ret = Application::frameRenderingQueued(evt);
 	pmCamNode->translate(mDirection * evt.timeSinceLastFrame, Ogre::Node::TS_LOCAL);
-	
+
+	// the events are fed into a buffer and then dispatched via the callback methods.
 	return ret;
 }
 

@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{470836BF-A721-467D-BC0F-ED1CEE661476}</ProjectGuid>
     <RootNamespace>ch05BufferedInput</RootNamespace>
+    <ProjectName>ch01-05-Buffered-Input</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -1,18 +1,19 @@
 #ifndef BASIC6_H
 #define BASIC6_H
 
+////////////////////////////////////////////////////////////////////////////////////////
 /*
-  1.Create the Ogre::Root object
-  2.Define the resources that Ogre will use
-  3.Choose and set up the RenderSystem (DirectX, OpenGL, etc)
-  4.Create the RenderWindow
-  5.Set up any third party libraries and plugins.
-  6.Initialise resources
-  7.Register listener classes
-  8.Build a scene
-  9.Start the render loop
-
+*  1.Create the Ogre::Root object
+*  2.Define the resources that Ogre will use
+*  3.Choose and set up the RenderSystem (DirectX, OpenGL, etc)
+*  4.Create the RenderWindow
+*  5.Set up any third party libraries and plugins.
+*  6.Initialise resources
+*  7.Register listener classes
+*  8.Build a scene
+*  9.Start the render loop
 */
+////////////////////////////////////////////////////////////////////////////////////////
 
 #include <OgreRoot.h>
 #include <OgreException.h>

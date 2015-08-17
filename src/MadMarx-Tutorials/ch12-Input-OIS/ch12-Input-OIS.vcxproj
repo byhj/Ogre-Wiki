@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{16500D2A-0250-4F17-9890-C411F0F41A5C}</ProjectGuid>
     <RootNamespace>ch12InputOIS</RootNamespace>
+    <ProjectName>ch04-12-Input-OIS</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

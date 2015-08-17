@@ -32,7 +32,7 @@ bool Basic4::frameRenderingQueued(const Ogre::FrameEvent &evt)
 {
 	bool ret = Application::frameRenderingQueued(evt);
 
-	//We proces unbuffered input every frame
+	//We proces unbuffered input every render frame
 	if (!processUnbufferedInput(evt))
 		return false;
 

@@ -21,7 +21,7 @@ void Basic2::createCamera()
 
 void Basic2::createViewports()
 {
-	//We set viewport according to camera of render window
+//The way we tell the RenderWindow which area of the screen to use is by giving it a Viewport
 	Ogre::Viewport *vp = mWindow->addViewport(mCamera);
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0) );
 	mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth() / Ogre::Real(vp->getActualHeight()) ) );

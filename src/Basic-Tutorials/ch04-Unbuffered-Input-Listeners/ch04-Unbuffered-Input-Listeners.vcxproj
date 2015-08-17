@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C0953D39-97BD-4BEB-ABCC-658DE88AD366}</ProjectGuid>
     <RootNamespace>ch04UnbufferedInputListeners</RootNamespace>
+    <ProjectName>ch01-04-Unbuffered-Input-Listeners</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

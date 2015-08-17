@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{77F13DDE-2F91-4031-810B-BDCF375D4FB2}</ProjectGuid>
     <RootNamespace>ch11RTTtemp</RootNamespace>
+    <ProjectName>ch04-11-RTT-temp</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

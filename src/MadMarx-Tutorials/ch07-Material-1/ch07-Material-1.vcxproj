@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C875EBCD-529D-4EC1-90F4-A3D43B74F289}</ProjectGuid>
     <RootNamespace>ch07Material1</RootNamespace>
+    <ProjectName>ch04-07-Material-1</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{88AFE98D-BAB3-4629-8580-331D7D0B9C22}</ProjectGuid>
     <RootNamespace>ch08MultipleSceneManagers</RootNamespace>
+    <ProjectName>ch01-08-Multiple-SceneManagers</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

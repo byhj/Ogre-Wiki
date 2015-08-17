@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D6520D37-47D4-44B6-BB6B-E6BE7030206D}</ProjectGuid>
     <RootNamespace>ch04ManualObjectMesh</RootNamespace>
+    <ProjectName>ch04-04-ManualObject-Mesh</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

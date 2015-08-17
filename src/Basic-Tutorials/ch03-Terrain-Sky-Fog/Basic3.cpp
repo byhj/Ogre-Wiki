@@ -16,6 +16,7 @@ void Basic3::destoryScene(void)
 	OGRE_DELETE pTerrainGroup;
 	OGRE_DELETE pTerrainGlobalOptions;
 }
+
 void Basic3::createScene(void)
 {
 	//set the camera
@@ -40,10 +41,10 @@ void Basic3::createScene(void)
 	pLight->setDiffuseColour(Ogre::ColourValue::White);
 	pLight->setSpecularColour(Ogre::ColourValue(0.4, 0.4, 0.4));
 
-	//Configuring the Terrian
+	//Configuring the Terrain
 	pTerrainGlobalOptions = OGRE_NEW Ogre::TerrainGlobalOptions;
 	pTerrainGroup = OGRE_NEW Ogre::TerrainGroup(mSceneMgr, Ogre::Terrain::ALIGN_X_Z, 513, 12000.0);
-	pTerrainGroup->setFilenameConvention(Ogre::String("terrian"), Ogre::String("dat"));
+	pTerrainGroup->setFilenameConvention(Ogre::String("terrain"), Ogre::String("dat"));
 	pTerrainGroup->setOrigin(Ogre::Vector3::ZERO);
 
 	//Use Light and define the terrain
